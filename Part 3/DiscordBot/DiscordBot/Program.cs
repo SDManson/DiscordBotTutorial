@@ -3,6 +3,9 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+using Microsoft.Extensions.Logging;
+
+
 namespace DiscordBot
 {
     internal class Program
@@ -17,6 +20,11 @@ namespace DiscordBot
                 .Build();
 
             var serviceProvider = new ServiceCollection()
+                 .AddLogging(options =>
+                 {
+                     options.ClearProviders();
+                     options.AddConsole();
+                 })
                 .AddSingleton<IConfiguration>(configuration)
                 .AddScoped<IBot, Bot>()
                 .BuildServiceProvider();
